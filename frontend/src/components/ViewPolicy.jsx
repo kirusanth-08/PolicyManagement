@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // ViewPolicy.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
