@@ -1,11 +1,15 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
+  // Regular login
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -23,6 +27,12 @@ const UserLogin = () => {
       console.error('Login failed:', error);
     }
   };
+
+    // Google OAuth login
+    const handleGoogleLogin = () => {
+      window.location.href = 'http://localhost:3000/auth/google'; // Redirect to Google OAuth route
+    };
+  
 
   return (
     <div className="login-container min-h-screen flex items-center justify-center bg-gray-100">
@@ -59,6 +69,17 @@ const UserLogin = () => {
             Login
           </button>
         </form>
+
+        {/* Google OAuth login button */}
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 mt-4"
+        >
+          Login with Google
+        </button>
+        <p className="text-center mt-4">
+          <a href="/forgot-password" className="text-blue-600">Forgot your password?</a>
+        </p>
       </div>
     </div>
   );
