@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 // import AcknowledgmentButton from '../components/AcknowledgmentButton';
