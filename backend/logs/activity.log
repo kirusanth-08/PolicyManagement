@@ -1,3 +1,8 @@
 {"level":"info","message":"User John Doe logged in","timestamp":"2024-09-26T05:32:04.603Z","userId":"66f285e5dc44dfb3b49c93d0"}
 {"level":"info","message":"User Atheeque Niyas submitted quiz","score":0,"timestamp":"2024-09-26T05:33:45.226Z","userId":"66f15b7b93785f71ef0d44ea"}
 {"level":"info","message":"User Atheeque Niyas logged in","timestamp":"2024-09-26T06:51:20.643Z","userId":"66f15b7b93785f71ef0d44ea"}
+{"level":"info","message":"User Hariyanne logged in","timestamp":"2024-09-27T17:10:34.050Z","userId":"66f6e2107f2cf08bb18649c8"}
+{"level":"info","message":"User Hariyanne logged in","timestamp":"2024-09-27T17:11:43.150Z","userId":"66f6e2107f2cf08bb18649c8"}
+{"level":"info","message":"User Loshan logged in","timestamp":"2024-09-27T17:15:10.382Z","userId":"66f6e797aa9ca925acc6217a"}
+{"level":"info","message":"User Loshan logged in","timestamp":"2024-09-27T17:15:29.715Z","userId":"66f6e797aa9ca925acc6217a"}
+{"level":"info","message":"User Loshan logged in","timestamp":"2024-09-27T17:16:01.381Z","userId":"66f6e797aa9ca925acc6217a"}
