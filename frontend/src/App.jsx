@@ -5,13 +5,13 @@ import Footer from "./components/Footer";
 
 const App = () => {
   return (
-    // <Router>
+    <Router>
       <div>
         <NavBar />
         <AppRoutes />
         <Footer />
       </div>
-    // </Router>
+    </Router>
   );
 };
 
