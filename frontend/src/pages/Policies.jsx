@@ -19,7 +19,7 @@ const Policies = () => {
         }
       };
 
-      const { data } = await axios.get('http://localhost:3000/api/policies', config);
+      const { data } = await axios.get('http://localhost:3000/api/policies/api/policies', config);
       setPolicies(data);
     } catch (err) {
       console.error('Error fetching policies:', err);
