@@ -64,7 +64,8 @@ const loginUser = async (req, res) => {
       // Log successful login
       logger.info({ message: `User ${user.name} logged in`, userId: user._id });
   
-      res.json({ token, user: { name: user.name, role: user.role }, message: "Login successful!" });
+
+    res.json({ token, user: { name: user.name, role: user.role }, message: "Login successful!" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
