@@ -13,18 +13,18 @@ useEffect(() => {
   if (token && user) {
     try {
       const parsedUser = JSON.parse(user); // Parse user details from localStorage
-      setUserId(parsedUser.id); // Set user's name for display
+      // setUserId(parsedUser.id); // Set user's name for display
     } catch (error) {
       console.error("Failed to parse user data:", error);
     }
   }
 }, []);
 
-  useEffect(() => {
-    axios.get(`http://localhost:3000/api/acknowledgments/${userId}`)
-      .then((response) => setPolicies(response.data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`http://localhost:3000/api/acknowledgments/${userId}`)
+  //     .then((response) => setPolicies(response.data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
 
 
 

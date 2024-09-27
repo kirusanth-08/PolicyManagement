@@ -3,7 +3,7 @@ const { createAcknowledgment, getAcknowledgments } = require('../controllers/Ack
 const { get } = require('mongoose');
 const router = express.Router();
 
-router.get('/', getAcknowledgments);
+// router.get('/', getAcknowledgments);
 router.post('/', createAcknowledgment);
 
 
