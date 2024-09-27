@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { logger } = require("../middleware/Logger");
+const { logger } = require('../middleware/Logger');
 require("dotenv").config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -12,23 +12,18 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const registerUser = async (req, res) => {
   try {
     const { name, phone, email, password } = req.body;
-
-    // Validate input
-    if (!name || !phone || !email || !password) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Check for existing phone or email in a single query
-    const existingUser = await User.findOne({ $or: [{ phone }, { email }] });
-    if (existingUser) {
-      if (existingUser.phone === phone) {
-        return res.status(400).json({ error: "Phone number already registered" });
-      }
-      if (existingUser.email === email) {
-        return res.status(400).json({ error: "Email address is already registered" });
-      }
+    const existingPhone = await User.findOne({ phone });
+    if (existingPhone) {
+      return res.status(400).json({ error: "Phone number already registered" });
+    }
+
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res
+        .status(400)
+        .json({ error: "Email address is already registered" });
     }
 
     const user = new User({
@@ -41,7 +36,6 @@ const registerUser = async (req, res) => {
     await user.save();
     res.status(201).json({ user, message: "User registered successfully" });
   } catch (error) {
-    console.error(error); // Log the error for debugging
     res.status(400).json({ error: error.message });
   }
 };
@@ -53,33 +47,30 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ error: "Invalid Email, Try again!" });
+      throw new Error("Invalid Email, Try again!");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ error: "Invalid Password, Try again!" });
+      throw new Error("Invalid Password, Try again!");
     }
 
-    // Include the role in the token payload
+     // Include the role in the token payload
     const token = jwt.sign(
       { userId: user._id, name: user.name, role: user.role }, // Include role here
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    // Log successful login
-    logger.info({ message: `User ${user.name} logged in`, userId: user._id });
-
-    res.json({
-      token,
-      user: { name: user.name, role: user.role },
-      message: "Login successful!",
-    });
+      // Log successful login
+      logger.info({ message: `User ${user.name} logged in`, userId: user._id });
+  
+      res.json({ token, user: { id: user._id, name: user.name, role: user.role }, message: "Login successful!" });
   } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
+    
 };
+
 // // Controller to log out a user by removing their token from local storage
 // const logoutUser = async (req, res) => {
 //   try {
@@ -94,35 +85,33 @@ const loginUser = async (req, res) => {
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+  if (!user) return res.status(404).json({ message: 'User not found' });
 
   // Create reset token
-  const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   // Configure nodemailer (you may want to customize this part based on your email service)
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: 'Gmail',
     auth: {
       user: process.env.EMAIL_USER, // Your email
-      pass: process.env.EMAIL_PASS, // Your email password
-    },
+      pass: process.env.EMAIL_PASS  // Your email password
+    }
   });
 
   // Email content
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: user.email,
-    subject: "Password Reset",
-    html: `<p>You requested for a password reset. Click <a href="${process.env.CLIENT_URL}/reset-password/${resetToken}">here</a> to reset your password.</p>`,
+    subject: 'Password Reset',
+    html: `<p>You requested for a password reset. Click <a href="${process.env.CLIENT_URL}/reset-password/${resetToken}">here</a> to reset your password.</p>`
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      return res.status(500).json({ message: "Error sending email" });
+      return res.status(500).json({ message: 'Error sending email' });
     }
-    res.status(200).json({ message: "Password reset email sent successfully" });
+    res.status(200).json({ message: 'Password reset email sent successfully' });
   });
 };
 
@@ -135,17 +124,18 @@ const resetPassword = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
     // Hash new password and save
     user.password = await bcrypt.hash(password, 10);
     await user.save();
 
-    res.status(200).json({ message: "Password reset successful" });
+    res.status(200).json({ message: 'Password reset successful' });
   } catch (error) {
-    res.status(400).json({ message: "Invalid or expired token" });
+    res.status(400).json({ message: 'Invalid or expired token' });
   }
 };
+
 
 // Controller to update the user's profile information in the database
 const updateUserProfile = async (req, res) => {

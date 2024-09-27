@@ -1,7 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline"; // Update for Heroicons v2
+import {
+  Bars3Icon,
+  XMarkIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline"; // Update for Heroicons v2
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -21,7 +25,7 @@ const NavBar = () => {
         const parsedUser = JSON.parse(user); // Parse user details from localStorage
         setLoggedIn(true); // Set the user as logged in
         setUserName(parsedUser.name); // Set user's name for display
-        setIsAdmin(parsedUser.role === 'admin'); // Check if the user is an admin
+        setIsAdmin(parsedUser.role === "admin"); // Check if the user is an admin
       } catch (error) {
         console.error("Failed to parse user data:", error);
         handleLogout(); // If parsing fails, log the user out
@@ -42,7 +46,6 @@ const NavBar = () => {
   return (
     <nav className="bg-blue-600 p-4 shadow-md">
       <div className="flex justify-between items-center">
-        
         {/* Left side: Trust Bank logo */}
         <Link
           to="/"
@@ -76,9 +79,9 @@ const NavBar = () => {
         {/* Right side: Search, login/signup or user profile */}
         <div className="flex items-center space-x-4">
           {/* Search Icon */}
-          <button className="text-white hover:text-gray-200 transition-colors duration-200">
+          {/* <button className="text-white hover:text-gray-200 transition-colors duration-200">
             <MagnifyingGlassIcon className="h-6 w-6" />
-          </button>
+          </button> */}
 
           {loggedIn ? (
             <>
@@ -95,11 +98,17 @@ const NavBar = () => {
                 {/* Dropdown Menu for user profile */}
                 {isOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-md py-2 z-50">
-                    <Link to="/user" className="block px-4 py-2 hover:bg-gray-100">
+                    <Link
+                      to="/user"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       User Dashboard
                     </Link>
                     {isAdmin && (
-                      <Link to="/admin" className="block px-4 py-2 hover:bg-gray-100">
+                      <Link
+                        to="/dashboard"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
                         Admin Dashboard
                       </Link>
                     )}

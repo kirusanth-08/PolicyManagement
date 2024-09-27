@@ -13,8 +13,11 @@ const AuthMiddleware = async (req, res, next) => {
     const user = await User.findById(decoded.userId);
 
     if (!user) {
+      console.log("eroigeaoir")
       throw new Error();
     }
+
+    console.log(user)
 
     req.user = user;
     next();

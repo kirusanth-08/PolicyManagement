@@ -8,6 +8,8 @@ import ViewPolicy from "../components/ViewPolicy";
 import AddPolicyModal from "../components/AddPolicyModal";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import SaamPage from "../pages/SaamPage";
+import UserHome from "../pages/UserHome";
 
 const AppRoutes = () => {
   return (
@@ -21,6 +23,8 @@ const AppRoutes = () => {
       <Route path="/add-policy" element={<AddPolicyModal />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path="/saam" element={<SaamPage />} />
+      <Route path="/user" element={<UserHome />} />
     </Routes>
   );
 };

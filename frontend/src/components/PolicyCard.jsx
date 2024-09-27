@@ -10,6 +10,8 @@ const PolicyCard = ({ policy, isAdmin, onUpdate }) => {
       <p><strong>Version:</strong> {policy.version}</p>
       <p><strong>Domain:</strong> {policy.domain}</p>
 
+      {/* { policy.acknowledgement ? <p>Acknowledged</p> : <p>Not acknowledged</p> } */}
+
       {/* Show Acknowledgment button for regular users */}
       {!isAdmin && <AcknowledgmentButton policyId={policy._id} />}
 

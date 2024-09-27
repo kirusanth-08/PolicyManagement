@@ -4,6 +4,23 @@ import axios from "axios";
 
 const AcknowledgmentButton = ({ policyId }) => {
   const [scrollReached, setScrollReached] = useState(false);
+  const [userId, setUserId] = useState(""); // Add userId state if required
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+  
+    // If both token and user are available, set loggedIn state and user details
+    if (token && user) {
+      try {
+        const parsedUser = JSON.parse(user); // Parse user details from localStorage
+        setUserId(parsedUser._id); // Set user's name for display
+        console.log("User ID:", parsedUser._id);
+      } catch (error) {
+        console.error("Failed to parse user data:", error);
+      }
+    }
+  }, []);
 
   const handleScroll = (e) => {
     const element = e.target;
@@ -14,7 +31,7 @@ const AcknowledgmentButton = ({ policyId }) => {
 
   const handleAcknowledge = async () => {
     try {
-      await axios.post("/api/acknowledgments", { policyId });
+      await axios.post("http://localhost:3000/api/acknowledgments", { userId, policyId });
       alert("Acknowledged successfully");
     } catch (error) {
       console.error("Error acknowledging policy:", error);

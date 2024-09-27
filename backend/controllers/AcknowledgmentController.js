@@ -16,4 +16,14 @@ const createAcknowledgment = async (req, res) => {
   }
 };
 
-module.exports = { createAcknowledgment };
+const getAcknowledgments = async (req, res) => {
+  try {
+    const acknowledgments = await Acknowledgment.find( { userId: req.user._id } );
+    res.json(acknowledgments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch acknowledgments' });
+  }
+}
+
+module.exports = { createAcknowledgment, getAcknowledgments };
